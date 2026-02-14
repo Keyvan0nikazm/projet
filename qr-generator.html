@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur QR Code - Valentine</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .generator-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        h1 {
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+        
+        .instructions {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+        }
+        
+        .instructions li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+        }
+        
+        #qrcode {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            margin-top: 10px;
+        }
+        
+        .link-display {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="generator-container">
+        <h1>💝 Lien Valentine</h1>
+        
+        <div class="instructions">
+            <h3>📋 Votre lien est prêt!</h3>
+            <p style="margin-top: 15px;">Cliquez sur le lien ci-dessous ou copiez-le pour le partager:</p>
+        </div>
+        
+        <div id="linkDisplay" class="link-display">
+            <a id="valentineLink" href="index.html" target="_blank" style="color: #e91e63; font-size: 1.2em; text-decoration: none; font-weight: bold;">
+                Cliquez ici pour ouvrir la page Valentine 💕
+            </a>
+        </div>
+        
+        <button onclick="copyLink()" style="margin-top: 20px;">Copier le lien 📋</button>
+        
+        <input type="text" id="urlInput" placeholder="https://votre-site.com/index.html" style="margin-top: 20px;">
+        
+        <button onclick="generateQR()">Générer QR Code</button>
+        
+        <div id="qrcode"></div>
+        
+        <div id="downloadSection" style="display: none;">
+            <button class="download-btn" onclick="downloadQR()">Télécharger QR Code 📥</button>
+        </div>
+        
+        <div class="instructions" style="margin-top: 30px;">
+            <h3>🚀 Options d'hébergement gratuit:</h3>
+            <ul>
+                <li><strong>GitHub Pages:</strong> Gratuit, facile à utiliser</li>
+                <li><strong>Netlify:</strong> Déploiement par glisser-déposer</li>
+                <li><strong>Vercel:</strong> Rapide et simple</li>
+                <li><strong>Surge.sh:</strong> Ligne de commande simple</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+        let qrcode = null;
+        
+        function generateQR() {
+            const url = document.getElementById('urlInput').value.trim();
+            
+            if (!url) {
+                alert('Veuillez entrer une URL!');
+                return;
+            }
+            
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                alert('L\'URL doit commencer par http:// ou https://');
+                return;
+            }
+            
+            // Effacer l'ancien QR code
+            document.getElementById('qrcode').innerHTML = '';
+            
+            // Générer le nouveau QR code
+            qrcode = new QRCode(document.getElementById('qrcode'), {
+                text: url,
+                width: 256,
+                height: 256,
+                colorDark: '#e91e63',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            document.getElementById('downloadSection').style.display = 'block';
+        }
+        
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (!canvas) {
+                alert('Générez d\'abord un QR code!');
+                return;
+            }
+            
+            const url = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'valentine-qrcode.png';
+            link.href = url;
+            link.click();
+        }
+        
+        function copyLink() {
+            const linkElement = document.getElementById('valentineLink');
+            const link = linkElement.href;
+            
+            // Essayer d'abord avec l'API moderne
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(link).then(() => {
+                    alert('Lien copié! 💕\n\n' + link);
+                }).catch(() => {
+                    fallbackCopy(link);
+                });
+            } else {
+                fallbackCopy(link);
+            }
+        }
+        
+        function fallbackCopy(text) {
+            // Fallback pour les anciens navigateurs
+            const input = document.createElement('input');
+            input.value = text;
+            input.style.position = 'fixed';
+            input.style.opacity = '0';
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                alert('Lien copié! 💕\n\n' + text);
+            } catch (err) {
+                alert('Impossible de copier automatiquement. Voici le lien:\n\n' + text);
+            }
+            
+            document.body.removeChild(input);
+        }
+        
+        // Mettre à jour le lien au chargement de la page
+        window.addEventListener('load', () => {
+            // Récupérer l'URL de base (sans qr-generator.html)
+            const currentUrl = window.location.href;
+            const baseUrl = currentUrl.replace('qr-generator.html', 'index.html');
+            
+            // Mettre à jour le lien
+            document.getElementById('valentineLink').href = baseUrl;
+            
+            // Vérifier si on est en local (file://)
+            if (!currentUrl.startsWith('file://')) {
+                // Si on est sur un serveur web, remplir l'input aussi
+                document.getElementById('urlInput').value = baseUrl;
+            }
+        });
+    </script>
+</body>
+</html>

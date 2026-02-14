@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Valentine's Day</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="heart-animation">
+            <span class="heart">💝</span>
+            <span class="heart">💖</span>
+            <span class="heart">💗</span>
+        </div>
+        
+        <h1 class="question">Would you be my Valentine? 💕</h1>
+        
+        <div class="buttons-container">
+            <button id="yesBtn" class="btn yes-btn">Yes! 😊</button>
+            <button id="noBtn" class="btn no-btn">No 😢</button>
+        </div>
+        
+        <div id="successMessage" class="success-message hidden">
+            <h2>I'm so happy you said yes! 💕</h2>
+            <p>You just made this day absolutely magical! ✨</p>
+        </div>
+    </div>
+    
+    <!-- Livre animé -->
+    <div id="bookContainer" class="book-container">
+        <div class="book">
+            <div class="book-page" id="page1">
+                <div class="emoji">💖</div>
+                <h2>I'm so happy you said yes! 💕</h2>
+                <p>You just made this day absolutely magical... ❤️✨</p>
+                <div class="hearts-decoration">💗 💝 💖 💓 💞 💕</div>
+                <div class="page-indicator">Page 1/5</div>
+            </div>
+            
+            <div class="book-page" id="page2">
+                <div class="emoji">🌟</div>
+                <h2>Tu es spécial(e)</h2>
+                <p>Depuis le premier jour, tu as illuminé ma vie avec ton sourire et ta gentillesse.</p>
+                <div class="page-indicator">Page 2/5</div>
+            </div>
+            
+            <div class="book-page" id="page3">
+                <div class="emoji">💕</div>
+                <h2>Chaque moment</h2>
+                <p>Chaque moment passé avec toi est un trésor que je garde précieusement dans mon cœur.</p>
+                <div class="page-indicator">Page 3/5</div>
+            </div>
+            
+            <div class="book-page" id="page4">
+                <div class="emoji">🌹</div>
+                <h2>Tu me complètes</h2>
+                <p>Avec toi à mes côtés, je me sens complet(e). Tu es ma meilleure moitié.</p>
+                <div class="page-indicator">Page 4/5</div>
+            </div>
+            
+            <div class="book-page" id="page5">
+                <div class="emoji">💝</div>
+                <h2>Merci!</h2>
+                <p>Merci d'être ma Valentine. J'ai hâte de créer encore plus de merveilleux souvenirs avec toi! 💖</p>
+                <div class="page-indicator">Page 5/5</div>
+            </div>
+            
+            <!-- Boutons de navigation -->
+            <div class="book-navigation">
+                <button id="prevBtn" class="nav-btn">← Précédent</button>
+                <button id="nextBtn" class="nav-btn">Suivant →</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
